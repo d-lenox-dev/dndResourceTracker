@@ -3,47 +3,10 @@ from tkinter import messagebox
 import customtkinter
 import Items
 import csv_handler as csvh
+import main_function_handler as mfh
 
-master_resource_list = csvh.master_resource_list
-master_item_list = csvh.master_item_list
-
-
-def create_window():
-    item_window = tkinter.Toplevel()
-    item_window.geometry("480x500")
-
-
-def cycle_smithing(allocation: int):
-    gained_basic = round((allocation - 0.5) / 10) * 3
-    gained_upgrade = round((allocation - 0.5) / 20) * 2
-    master_resource_list[1] = int(master_resource_list[1]) + gained_basic
-    master_resource_list[2] = int(master_resource_list[2]) + gained_upgrade
-    smithing_basic_num.configure(text=master_resource_list[1])
-    smithing_upgraded_num.configure(text=master_resource_list[2])
-
-
-def cycle_cooking(allocation: int):
-    gained_food_tier_1 = round((allocation - 0.5) / 10) * 10
-    gained_food_tier_2 = round((allocation - 0.5) / 20) * 15
-    total_food_gained = gained_food_tier_2 + gained_food_tier_1
-    master_resource_list[0] = int(master_resource_list[0]) + total_food_gained
-    cooking_report_num.configure(text=master_resource_list[0])
-
-
-def cycle_defense(allocation: int):
-    gained_defense_tier_1 = round((allocation - 0.5) / 10) * 5
-    gained_defense_tier_2 = round((allocation - 0.5) / 20) * 10
-    total_defense_gained = gained_defense_tier_1 + gained_defense_tier_2
-    master_resource_list[4] = int(master_resource_list[4]) + total_defense_gained
-    defense_report_num.configure(text=master_resource_list[4])
-
-
-def cycle_research(allocation: int):
-    gained_unique_tier_1 = round((allocation - 0.5) / 10) * 1
-    gained_unique_tier_2 = round((allocation - 0.5) / 20) * 3
-    total_unique_gained = gained_unique_tier_1 + gained_unique_tier_2
-    master_resource_list[3] = int(master_resource_list[3]) + total_unique_gained
-    research_report_num.configure(text=master_resource_list[3])
+master_resource_list = mfh.master_resource_list
+master_item_list = mfh.master_item_list
 
 
 def rack_day():
@@ -56,10 +19,10 @@ def rack_day():
         if int(used_adventurers) > int(master_resource_list[6]):
             error_text.configure(text="too many adventurers")
         else:
-            cycle_smithing(smithing.get())
-            cycle_cooking(cooking.get())
-            cycle_defense(defense.get())
-            cycle_research(research.get())
+            mfh.cycle_smithing(smithing.get(), smithing_basic_num, smithing_upgraded_num)
+            mfh.cycle_cooking(cooking.get(), cooking_report_num)
+            mfh.cycle_defense(defense.get(), defense_report_num)
+            mfh.cycle_research(research.get(), research_report_num)
 
     except ():
         error_text.configure(text="")
@@ -179,9 +142,17 @@ for item in master_item_list:
     bt = customtkinter.CTkButton(
         items_list,
         text=item.name,
-        command=create_window
+        command=lambda: mfh.item_info_window(item)
     )
     bt.pack(pady=5)
+
+
+item_add_button = customtkinter.CTkButton(
+    app,
+    text="Add Item",
+    command=mfh.create_item
+)
+
 
 # on close saving function
 def on_close():
