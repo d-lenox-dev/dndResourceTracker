@@ -1,12 +1,14 @@
 import tkinter
 from tkinter import messagebox
 import customtkinter
-import Items
+import Item
 import csv_handler as csvh
+import json_handler as jsonh
 import main_function_handler as mfh
 
-master_resource_list = mfh.master_resource_list
-master_item_list = mfh.master_item_list
+
+resource_dict = jsonh.resource_data["resources"][0]
+items_dict_list = jsonh.items_data
 
 
 def rack_day():
@@ -16,7 +18,7 @@ def rack_day():
         used_adventurers = int(smithing_box.get()) + int(kitchen_box.get()) + int(defense_box.get()) + int(
             research_box.get()) + int(training_box.get())
         num_adventurers_num.configure(text=used_adventurers)
-        if int(used_adventurers) > int(master_resource_list[6]):
+        if int(used_adventurers) > int(resource_dict["adventurers"]):
             error_text.configure(text="too many adventurers")
         else:
             mfh.cycle_smithing(smithing.get(), smithing_basic_num, smithing_upgraded_num)
@@ -99,37 +101,37 @@ num_adventurers_num.grid(row=2, column=1)
 
 total_adventurers = customtkinter.CTkLabel(app, text="Total Adventurers: ")
 total_adventurers.grid(row=3, column=0)
-total_adventurers_num = customtkinter.CTkLabel(app, text=master_resource_list[6])
+total_adventurers_num = customtkinter.CTkLabel(app, text=resource_dict["adventurers"])
 total_adventurers_num.grid(row=3, column=1)
 
 smithing_basic_title = customtkinter.CTkLabel(app, text="Basic Materials: ")
 smithing_basic_title.grid(row=4, column=0)
-smithing_basic_num = customtkinter.CTkLabel(app, text=master_resource_list[1])
+smithing_basic_num = customtkinter.CTkLabel(app, text=resource_dict["basic"])
 smithing_basic_num.grid(row=4, column=1)
 
 smithing_upgraded_title = customtkinter.CTkLabel(app, text="Upgraded Materials: ")
 smithing_upgraded_title.grid(row=5, column=0)
-smithing_upgraded_num = customtkinter.CTkLabel(app, text=master_resource_list[2])
+smithing_upgraded_num = customtkinter.CTkLabel(app, text=resource_dict["upgrade"])
 smithing_upgraded_num.grid(row=5, column=1)
 
 cooking_report_title = customtkinter.CTkLabel(app, text="Food: ")
 cooking_report_title.grid(row=6, column=0)
-cooking_report_num = customtkinter.CTkLabel(app, text=master_resource_list[0])
+cooking_report_num = customtkinter.CTkLabel(app, text=resource_dict["food"])
 cooking_report_num.grid(row=6, column=1)
 
 defense_report = customtkinter.CTkLabel(app, text="Defense: ")
 defense_report.grid(row=7, column=0)
-defense_report_num = customtkinter.CTkLabel(app, text=master_resource_list[4])
+defense_report_num = customtkinter.CTkLabel(app, text=resource_dict["security"])
 defense_report_num.grid(row=7, column=1)
 
 research_report = customtkinter.CTkLabel(app, text="Unique Materials: ")
 research_report.grid(row=8, column=0)
-research_report_num = customtkinter.CTkLabel(app, text=master_resource_list[3])
+research_report_num = customtkinter.CTkLabel(app, text=resource_dict["unique"])
 research_report_num.grid(row=8, column=1)
 
 training_report = customtkinter.CTkLabel(app, text="Army Strength: ")
 training_report.grid(row=9, column=0)
-training_report_num = customtkinter.CTkLabel(app, text=master_resource_list[5])
+training_report_num = customtkinter.CTkLabel(app, text=resource_dict["strength"])
 training_report_num.grid(row=9, column=1)
 
 # Items Listing
@@ -138,7 +140,7 @@ items_list = customtkinter.CTkScrollableFrame(app,
                                               width=390)
 items_list.grid(rowspan=5, row=3, columnspan=4, column=2)
 
-for item in master_item_list:
+for item in items_dict_list:
     bt = customtkinter.CTkButton(
         items_list,
         text=item.name,
@@ -157,7 +159,7 @@ item_add_button = customtkinter.CTkButton(
 # on close saving function
 def on_close():
     if messagebox.askyesno("Save", "Save before closing?"):
-        csvh.write_resources(master_resource_list)
+        csvh.write_resources(resource_dict)
         app.destroy()
     else:
         app.destroy()

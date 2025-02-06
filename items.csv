@@ -1,3 +1,3 @@
-temp_name_0,0,0,0,0
-temp_name_1,0,0,0,0
-temp_name_2,0,0,0,0
+Health Potion,Heal for 2d4+2,5,5,0,0,T,T
+The Huntsman,+1d4 to attack roll and +1d6 to attack for each consecutive attack on same enemy,0,0,0,0,T,F
+temp_name_2,not researched,0,0,0,0,F,F

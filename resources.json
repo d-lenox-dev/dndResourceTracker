@@ -1,0 +1,13 @@
+{
+  "resources": [
+    {
+      "food": "340",
+      "basic": "125",
+      "upgrade": "17",
+      "unique": "22",
+      "security": "160",
+      "strength": "124",
+      "adventurers": "120"
+    }
+  ]
+}

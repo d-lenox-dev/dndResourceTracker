@@ -2,11 +2,12 @@
 
 ---
 
-## Version 0.11B
+## Version 0.1.1
 
 ---
 This program is for all the DND lovers who want a more convenient way to track resources and manage items. The program
-is small and uses basic csv files as the save data.
+is small and uses basic csv files as the save data. This program is NOT complete and has very limited functionality.
+Crashes and errors are to be expected.
 
 ### Resource Tracking
 
@@ -32,14 +33,32 @@ Included with the software is a Comma Separated Values (CSV) file that contains 
 to edit that file without manually changing the values inside the CSV. In future versions, users will be able to add and
 remove items to that list. A great example of how to use the list is when the user's party finds an item, they should be
 able to add that item to the list. An initial item will start with 0 values and show not researched. Once declared
-researched by the DM, users can add the information about the item to the list. 
+researched by the DM, users can add the information about the item to the list.
 
 # Change Log
 
 ---
+
 ## v0.11B
 
 ---
-* Moved cycling functions to a handler file 
+
+* Moved cycling functions to a handler file
 * Added items list functionality
 * When a user clicks on an item within the scrollable list, a new window should pop up displaying information
+
+## v0.1.1
+
+---
+
+* Versioning changed to reflect `vX.X.X`
+* Changed the `Item` class to initial with 0 values and added craftable boolean
+* Modified `items.csv` to reflect changes to the `Item` object class
+  * changed two example items to reflect items from my campaign
+* Updated `csv_handler.py` to reflect changes to the `Item` object class
+* Added getter and setter functions to the `Item` object class
+* Added an `as_dict` function to the `Item` object class
+* `json_handler.py` added change data storage to JSON files instead of CSV
+  * `items.json` and `resources.json` added as a result
+  * `items.csv` and `resources.csv` may be delete after program is reworked
+* Began reworking the main program to use JSON instead of CSV
